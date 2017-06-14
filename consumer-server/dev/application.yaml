@@ -1,0 +1,29 @@
+server:
+  port: 8081
+management:
+  security:
+    enabled:  false
+eureka:
+  client:
+    service-url: # eureka 服务地址
+        defaultZone: http://localhost:1111/eureka/
+    registry-fetch-interval-seconds: 30     # 从eureka 服务获取注册信息的间隔时间，默认是30秒
+    instance-info-replication-interval-seconds: 30    #更新实例信息的变化到eureka 服务器的间隔时间， 默认是30秒
+    initial-instance-info-replication-interval-seconds:  40 # 初始化实例信息到eureka 服务器的间隔时间， 默认是40秒
+    eureka-service-url-poll-interval-seconds: 300   # 轮询Eureka服务地址更改的间隔时间，配合spring-config 使用
+    eureka-server-read-timeout-seconds: 8           # 读取Eureka 信息的超时时间
+    eureka-server-connect-timeout-seconds:  5       # 连接Eureka 超时时间
+    eureka-server-total-connections:  200           # 从客户端到所有Eureka Server的连接数
+    eureka-server-total-connections-per-host:  50   # 从客户端到每个Eureka Server的连接数
+    heartbeat-executor-thread-pool-size:  2         # 心跳连接池的初始化线程数
+    cache-refresh-executor-thread-pool-size:  2     # 缓存刷新线程池的初始化线程数
+    prefer-same-zone-eureka: true                   # zone 亲和性
+    register-with-eureka: true                      # 是否 将自身实例注册到Eureka
+    fetch-registry: true                            # 是否从Eureka 获取注册信息
+
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+    prefer-ip-address: true                         # 是否优先使用IP作为主机的名字
+    lease-renewal-interval-in-seconds: 30           # 服务实例续约的时间间隔
+    lease-expiration-duration-in-seconds:  90       # 告诉eureka server 的服务失效时间（当前时间 - 最后一次续约时间）
+    appname:  ${spring.application.name:unknown}    # 服务名 默认取spring.application.name 的配置值，否则为unknown
